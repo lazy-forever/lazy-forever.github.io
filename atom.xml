@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>lazy_forever&#39;s Blog</title>
+  <icon>https://www.gravatar.com/avatar/3be84ef44da20b5b934b6b90898b49e3</icon>
+  
+  <link href="https://lazy-forever.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://lazy-forever.github.io/"/>
+  <updated>2023-05-29T10:01:07.199Z</updated>
+  <id>https://lazy-forever.github.io/</id>
+  
+  <author>
+    <name>lazy_forever</name>
+    <email>2606090126@qq.com</email>
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>My First Blog</title>
+    <link href="https://lazy-forever.github.io/2023/05/29/hello-world/"/>
+    <id>https://lazy-forever.github.io/2023/05/29/hello-world/</id>
+    <published>2023-05-29T10:00:00.000Z</published>
+    <updated>2023-05-29T10:01:07.199Z</updated>
+    
+    <content type="html"><![CDATA[<p>这是我的第一篇博客。</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;这是我的第一篇博客。&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
