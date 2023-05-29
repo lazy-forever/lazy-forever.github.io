@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>My First Blog</title>
-      <link href="/2023/05/29/hello-world/"/>
-      <url>/2023/05/29/hello-world/</url>
-      
-        <content type="html"><![CDATA[<p>这是我的第一篇博客。</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+<search>
+  <entry>
+    <title>My First Blog</title>
+    <url>/2023/05/29/hello-world/</url>
+    <content><![CDATA[<p>这是我的第一篇博客。</p>
+]]></content>
+  </entry>
 </search>
