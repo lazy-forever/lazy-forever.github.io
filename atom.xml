@@ -3,11 +3,11 @@
   <title>lazy_forever&#39;s Blog</title>
   <icon>https://www.gravatar.com/avatar/3be84ef44da20b5b934b6b90898b49e3</icon>
   
-  <link href="https://lazy-forever.github.io/atom.xml" rel="self"/>
+  <link href="https://blog.lazyforever.top/atom.xml" rel="self"/>
   
-  <link href="https://lazy-forever.github.io/"/>
+  <link href="https://blog.lazyforever.top/"/>
   <updated>2023-05-31T15:54:21.269Z</updated>
-  <id>https://lazy-forever.github.io/</id>
+  <id>https://blog.lazyforever.top/</id>
   
   <author>
     <name>lazy_forever</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>My First Blog</title>
-    <link href="https://lazy-forever.github.io/2023/05/29/hello-world/"/>
-    <id>https://lazy-forever.github.io/2023/05/29/hello-world/</id>
+    <link href="https://blog.lazyforever.top/2023/05/29/hello-world/"/>
+    <id>https://blog.lazyforever.top/2023/05/29/hello-world/</id>
     <published>2023-05-29T10:00:00.000Z</published>
     <updated>2023-05-31T15:54:21.269Z</updated>
     
@@ -35,7 +35,7 @@
     
     
     
-    <category term="其他" scheme="https://lazy-forever.github.io/tags/%E5%85%B6%E4%BB%96/"/>
+    <category term="其他" scheme="https://blog.lazyforever.top/tags/%E5%85%B6%E4%BB%96/"/>
     
   </entry>
   
