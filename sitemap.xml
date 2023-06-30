@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.lazyforever.top/2023/05/29/hello-world/</loc>
+    <loc>https://blog.lazyforever.top/2023/06/30/hexo/</loc>
     
-    <lastmod>2023-05-31</lastmod>
+    <lastmod>2023-06-30</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -13,7 +13,16 @@
   <url>
     <loc>https://blog.lazyforever.top/about/index.html</loc>
     
-    <lastmod>2023-05-29</lastmod>
+    <lastmod>2023-06-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.lazyforever.top/2023/05/29/hello-world/</loc>
+    
+    <lastmod>2023-05-31</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -49,7 +58,7 @@
 
   <url>
     <loc>https://blog.lazyforever.top/</loc>
-    <lastmod>2023-06-28</lastmod>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -57,11 +66,25 @@
   
   <url>
     <loc>https://blog.lazyforever.top/tags/%E5%85%B6%E4%BB%96/</loc>
-    <lastmod>2023-06-28</lastmod>
+    <lastmod>2023-06-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.lazyforever.top/tags/%E6%8A%80%E6%9C%AF/</loc>
+    <lastmod>2023-06-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
 
+  
+  <url>
+    <loc>https://blog.lazyforever.top/categories/%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2023-06-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
 </urlset>
