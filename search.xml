@@ -427,7 +427,7 @@
       </tags>
   </entry>
   <entry>
-    <title>2023newstarctfWeek2 Web</title>
+    <title>2023newstarctfWeek2 Web Writeup</title>
     <url>/2023/10/10/2023newstarctfWeek2/</url>
     <content><![CDATA[<p>解题 6&#x2F;6</p>
 <h2 id="游戏高手"><a href="#游戏高手" class="headerlink" title="游戏高手"></a>游戏高手</h2><p>打开容器，发现一个前端页面，F12进行javascript代码审计。</p>
