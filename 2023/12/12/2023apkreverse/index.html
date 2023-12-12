@@ -18,28 +18,31 @@
   
     <meta name="description" content="基础知识apk结构apk是对一个安卓应用程序所需要的文件进行打包，本质上是一个被签名的压缩包。 通常情况下，apk会含有以下文件：  asset文件夹：是不需编译的原始资源目录，包含各种静态的资源，如各种配置文件、JavaScript、字体文件、图片文件等。 lib文件夹：动态链接库存放的位置，通常情况下，这个文件夹内部以不同处理器版本还会划分成多个文件夹，如armeabi、armeabi-v7a">
 <meta property="og:type" content="article">
-<meta property="og:title" content="记一次零基础iot设备app交互过程的0day漏洞挖掘经历">
+<meta property="og:title" content="记一次零基础IOT设备与app交互0day漏洞挖掘学习经历">
 <meta property="og:url" content="https://blog.lazyforever.top/2023/12/12/2023apkreverse/index.html">
 <meta property="og:site_name" content="lazy_forever&#39;s Blog">
 <meta property="og:description" content="基础知识apk结构apk是对一个安卓应用程序所需要的文件进行打包，本质上是一个被签名的压缩包。 通常情况下，apk会含有以下文件：  asset文件夹：是不需编译的原始资源目录，包含各种静态的资源，如各种配置文件、JavaScript、字体文件、图片文件等。 lib文件夹：动态链接库存放的位置，通常情况下，这个文件夹内部以不同处理器版本还会划分成多个文件夹，如armeabi、armeabi-v7a">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://blog.lazyforever.top/2023apkreverse/trainsparent.png">
-<meta property="og:image" content="https://blog.lazyforever.top/2023apkreverse/iptables.png">
-<meta property="og:image" content="https://blog.lazyforever.top/2023apkreverse/diagram.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/12/12/2023apkreverse/transparent.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/12/12/2023apkreverse/iptables.png">
+<meta property="og:image" content="https://blog.lazyforever.top/2023/12/12/2023apkreverse/diagram.png">
 <meta property="article:published_time" content="2023-12-12T02:00:20.000Z">
-<meta property="article:modified_time" content="2023-12-12T13:31:23.040Z">
+<meta property="article:modified_time" content="2023-12-12T13:41:20.864Z">
 <meta property="article:author" content="lazy_forever">
+<meta property="article:tag" content="wireshark">
 <meta property="article:tag" content="apk逆向">
 <meta property="article:tag" content="frida">
 <meta property="article:tag" content="mitmproxy">
+<meta property="article:tag" content="jeb">
+<meta property="article:tag" content="jadx">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://blog.lazyforever.top/2023apkreverse/trainsparent.png">
+<meta name="twitter:image" content="https://blog.lazyforever.top/2023/12/12/2023apkreverse/transparent.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>记一次零基础iot设备app交互过程的0day漏洞挖掘经历 - lazy_forever&#39;s Blog</title>
+  <title>记一次零基础IOT设备与app交互0day漏洞挖掘学习经历 - lazy_forever&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -258,7 +261,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="记一次零基础iot设备app交互过程的0day漏洞挖掘经历"></span>
+            <span id="subtitle" data-typed-text="记一次零基础IOT设备与app交互0day漏洞挖掘学习经历"></span>
           
         </div>
 
@@ -342,12 +345,12 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">记一次零基础iot设备app交互过程的0day漏洞挖掘经历</h1>
+            <h1 id="seo-header">记一次零基础IOT设备与app交互0day漏洞挖掘学习经历</h1>
             
               <p class="note note-info">
                 
                   
-                    本文最后更新于：2 分钟前
+                    本文最后更新于：3 分钟前
                   
                 
               </p>
@@ -395,10 +398,12 @@
 <p>一般情况下，将证书格式先转化为pem格式，然后通过<code>openssl x509 -subject_hash_old -in certificate.pem|head -1</code>命令读取哈希值，将pem证书名字改为刚刚提取的哈希值加.0，如<code>9a5ba575.0</code>，其中.0是为了防止证书哈希值重复，如果两个证书哈希值重复，那么后面的证书就会被重命名为.1、.2等，最后将<code>/system/etc/security/cacerts/</code>目录可写权限打开，将重命名后的证书放进去即可。</p>
 <p>我的手机版本为Android 10以上，无法直接通过更改文件夹写入权限来导入证书（也可能是我没有搞好），我使用了Magisk的Move Certificates模块，直接将证书装在用户目录下，重启后即可导入到系统证书中。</p>
 <p>装好证书后，正常情况下手机端连wifi时配置代理后应该是可以解密https流量了，但是，如果app拒绝代理或想要捕获其他tcp流量时，就需要使用mitmproxy透明模式，透明模式的启动命令为<code>mitmproxy --mode transparent --showhost</code>，开启透明模式后，工作原理如下图：</p>
-<p><img src="/2023apkreverse/trainsparent.png" srcset="/img/loading.gif" lazyload alt="trainsparent.png"></p>
+<img src="/2023/12/12/2023apkreverse/transparent.png" srcset="/img/loading.gif" lazyload class="">
+
 <p>此时，对于手机来说，mitmproxy相当于一个服务器，对于原服务器来说，mitmproxy相当于设备。</p>
 <p>由于透明模式需要对网络层进行转发，因此还需要配置iptables，关于iptables的知识可以看这篇博客<a target="_blank" rel="noopener" href="https://www.zsythink.net/archives/tag/iptables/">iptables-朱双印博客 (zsythink.net)</a>，在此贴一张iptables的原理图。</p>
-<p><img src="/2023apkreverse/iptables.png" srcset="/img/loading.gif" lazyload alt="iptables"></p>
+<img src="/2023/12/12/2023apkreverse/iptables.png" srcset="/img/loading.gif" lazyload class="">
+
 <p>我的iptables规则参考了fwx学长的博客<a target="_blank" rel="noopener" href="https://fwx2233.github.io/2023/02/17/%E5%9F%BA%E4%BA%8Emitmproxy+iptables+SSL-pinning%E7%BB%95%E8%BF%87+wireshark%E7%9A%84%E5%AE%89%E5%8D%93APP%E6%B5%81%E9%87%8F-%E5%8C%85%E6%8B%ACHTTP-HTTPS%E5%92%8C%E9%9D%9EHTTP-%E6%8D%95%E8%8E%B7/">基于mitmproxy+iptables+SSL pinning绕过技术+wireshark的安卓APP流量（包括HTTP、HTTPS和非HTTP）捕获 | 代码鬼才的Blog (fwx2233.github.io)</a>，如下：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-meta">#!/bin/bash</span><br><span class="hljs-comment"># 写监听的无线网卡的名称</span><br>WIRELESS_CARD=<span class="hljs-string">&quot;wlxc01c30151c62&quot;</span><br><br><span class="hljs-comment"># 开启相关的转发服务</span><br>sudo sysctl -w net.ipv4.ip_forward=1<br>sudo sysctl -w net.ipv4.conf.all.send_redirects=0<br><br><span class="hljs-comment"># 设置iptables的规则</span><br><span class="hljs-comment"># 将之前的规则清空</span><br>sudo iptables -F PREROUTING -t nat -i <span class="hljs-variable">$WIRELESS_CARD</span><br><span class="hljs-comment"># 设置端口转发(MQTT: 8883, HTTP: 80, HTTS: 443)</span><br>sudo iptables -t nat -A PREROUTING -i <span class="hljs-variable">$WIRELESS_CARD</span> -p tcp --dport 80 -j REDIRECT --to-port 8080<br>sudo iptables -t nat -A PREROUTING -i <span class="hljs-variable">$WIRELESS_CARD</span> -p tcp --dport 443 -j REDIRECT --to-port 8080<br>sudo iptables -t nat -A PREROUTING -i <span class="hljs-variable">$WIRELESS_CARD</span> -p tcp --dport 8883 -j REDIRECT --to-port 8080<br></code></pre></td></tr></table></figure>
 
@@ -410,7 +415,8 @@
 <p>如果时间过长或多次抓包导致生成的随机数文件过大，可能会导致wireshark解密失败，可以定时清空生成的随机数文件。</p>
 </blockquote>
 <p>至此基本环境配置完毕，给出我的最终网络拓扑图。</p>
-<p><img src="/2023apkreverse/diagram.png" srcset="/img/loading.gif" lazyload alt="diagram.png"></p>
+<img src="/2023/12/12/2023apkreverse/diagram.png" srcset="/img/loading.gif" lazyload class="">
+
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="frida进行hook"><a href="#frida进行hook" class="headerlink" title="frida进行hook"></a>frida进行hook</h3><p>frida安装过程省略，网上有很多教程可以参考。</p>
 <p>frida中有两种操作模式，分别是CLI模式和RPC模式</p>
 <ul>
@@ -492,11 +498,17 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
+        <a href="/tags/wireshark/" class="print-no-link">#wireshark</a>
+      
         <a href="/tags/apk%E9%80%86%E5%90%91/" class="print-no-link">#apk逆向</a>
       
         <a href="/tags/frida/" class="print-no-link">#frida</a>
       
         <a href="/tags/mitmproxy/" class="print-no-link">#mitmproxy</a>
+      
+        <a href="/tags/jeb/" class="print-no-link">#jeb</a>
+      
+        <a href="/tags/jadx/" class="print-no-link">#jadx</a>
       
     </div>
   
@@ -508,7 +520,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>记一次零基础iot设备app交互过程的0day漏洞挖掘经历</div>
+      <div>记一次零基础IOT设备与app交互0day漏洞挖掘学习经历</div>
       <div>https://blog.lazyforever.top/2023/12/12/2023apkreverse/</div>
     </div>
     <div class="license-meta">
